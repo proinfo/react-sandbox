@@ -14,3 +14,7 @@ a {
 * {
   box-sizing: border-box;
 }
+
+.pageContainer {
+  padding: 70px 0 40px;
+}

@@ -1,12 +1,22 @@
 import App from 'next/app'
 import Head from 'next/head'
 import Navbar from '../components/navbar'
-import styles from '../styles/Home.module.css'
+import styles from '../styles/globals.css'
 import Footer from '../components/footer'
 
 class MovieApp extends App {
+
+  static async getInitialProps(appContext) {
+
+    const appProps = await App.getInitialProps(appContext)
+
+    return { ...appProps }
+  }
+
+  
+
   render() {
-    const {Component} = this.props
+    const {Component, pageProps} = this.props
     return (
       <>
         <Head>
@@ -17,8 +27,11 @@ class MovieApp extends App {
           <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossOrigin="anonymous"></script>
         </Head>
         <Navbar />
-        <div className="container">
-          <Component />
+        <div className="pageContainer">
+          {styles.pageContainer}
+          <div className="container">          
+            <Component  {...pageProps} />
+          </div>
         </div>
         <Footer/>
       </>
