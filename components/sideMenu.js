@@ -1,38 +1,41 @@
-import React from 'react';
+
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 import Modal from './modal'
 import MovieCreateForm from './movieCreateForm'
-import {createMovie} from '../actions'
+import { createMovie } from '../actions'
 
 // Containment
-function Sidemenu(props) {
-    const categories = props.categories;
-    let modal = null
+const SideMenu = (props) => {
+  const { categories } = props  
+  const router = useRouter()
+  let modal = null
 
-    const handleCreateMovie = (movie) => {
-        createMovie(movie).then((movies) => {
-            console.log(JSON.stringify(movies))
-            modal.closeModal()
-        })
-    }
+  const handleCreateMovie = (movie) => {
+    createMovie(movie).then((movies) => {
+      modal.closeModal()
+      router.push('/')
+    })
+  }
 
-    return (
-        <div>
-            <Modal ref={ele => modal = ele} hasSubmit={false}>
-                <MovieCreateForm handleFormSubmit={handleCreateMovie} />
-            </Modal>
-            <h1 className="my-4">{props.appName}</h1>            
-            <div className="list-group">
-                { categories.map((categorie, index) => (
-                    <a 
-                        href="#" 
-                        key={`c-${categorie.id}`}
-                        className="list-group-item"
-                    >{categorie.name}</a>
-                ))}                            
-            </div>            
-        </div>
-    );
+  return (
+    <div>
+      <Modal ref={ele => modal = ele} hasSubmit={false}>
+        <MovieCreateForm handleFormSubmit={handleCreateMovie} />
+      </Modal>
+      <h1 className="my-4">{props.appName}</h1>
+      <div className="list-group">
+        { categories.map(c =>
+          <a
+            onClick = {() => {props.changeCategory(c.name)}}
+            key={c.id}
+            href="#"
+            className={`list-group-item ${props.activeCategory===c.name ? 'active' : ''}`}>{c.name}</a>
+          )
+        }
+      </div>
+    </div>
+  )
 }
 
-export default Sidemenu;
+export default SideMenu

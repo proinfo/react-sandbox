@@ -1,24 +1,27 @@
+
 import App from 'next/app'
 import Head from 'next/head'
 import Navbar from '../components/navbar'
-import styles from '../styles/globals.css'
 import Footer from '../components/footer'
+
+import '../styles/index.scss'
 
 class MovieApp extends App {
 
+  // TODO: execute here getInitialProps and pass this data to your page
+
   static async getInitialProps(appContext) {
-
+    // Executing getInitialProps of page you are navigated to
     const appProps = await App.getInitialProps(appContext)
-
     return { ...appProps }
   }
 
-  
-
   render() {
-    const {Component, pageProps} = this.props
+    // Component holds page you are navigating to
+    const { Component, pageProps } = this.props
+
     return (
-      <>
+      <div>
         <Head>
           <title>Home</title>
           <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossOrigin="anonymous" />
@@ -27,16 +30,21 @@ class MovieApp extends App {
           <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossOrigin="anonymous"></script>
         </Head>
         <Navbar />
-        <div className="pageContainer">
-          {styles.pageContainer}
-          <div className="container">          
-            <Component  {...pageProps} />
-          </div>
+        <div className="base-page">
+          <Component {...pageProps} />
         </div>
-        <Footer/>
-      </>
-    );
+        <Footer />
+        <style jsx>{`
+          .base-page {
+            padding-top: 100px;
+            padding-bottom: 200px;
+          }
+        `}
+        </style>
+      </div>
+    )
   }
 }
 
-export default MovieApp;
+
+export default MovieApp
